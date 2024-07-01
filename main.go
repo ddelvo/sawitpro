@@ -2,19 +2,35 @@ package main
 
 import (
 	"fmt"
+	"github.com/SawitProRecruitment/JuniorBackendEngineering/input"
+	"github.com/SawitProRecruitment/JuniorBackendEngineering/usecase"
 	"os"
 )
 
 func main() {
-	// This is just a placeholder to show how to print to stderr and return a non-zero exit code
-	// Please replace the whole content of this function with your solution.
-	fail := false
-	if fail {
-		// On input faulty, print "FAIL" to stderr and exit with status 1
-		fmt.Fprintln(os.Stderr, "FAIL")
-		os.Exit(1)
+
+	landSpecsInput := input.GetInput(os.Stdin)
+
+	landSpecs, err := input.GetWidthLengthCount(landSpecsInput[0])
+	if err != nil || len(landSpecs) != 3 {
+		input.Exit()
 	}
-	// On input correct, print the result to stdout and exit with status 0
-	output := 8
-	fmt.Printf("%d\n", output)
+	width := landSpecs[0]
+	length := landSpecs[1]
+	treesCount := landSpecs[2]
+
+	plantation := usecase.NewPlantation(length, width)
+	specs, err := input.GetTreeSpecs(treesCount, landSpecsInput)
+	if err != nil {
+		input.Exit()
+
+	}
+
+	err = plantation.PopulateLand(specs)
+	if err != nil {
+		input.Exit()
+	}
+
+	res := plantation.CalculateTravel()
+	fmt.Printf("%d\n", res)
 }
