@@ -10,7 +10,7 @@ import (
 	"strings"
 )
 
-func GetInput(stdin io.Reader) []string {
+func GetInput(stdin io.Reader) ([]string, error) {
 	scanner := bufio.NewScanner(stdin)
 	var landSpecsInput []string
 
@@ -20,9 +20,9 @@ func GetInput(stdin io.Reader) []string {
 	}
 
 	if err := scanner.Err(); err != nil {
-		fmt.Fprintln(os.Stderr, "reading standard input:", err)
+		return landSpecsInput, apperror.ErrInputScan
 	}
-	return landSpecsInput
+	return landSpecsInput, nil
 }
 
 func GetWidthLengthCount(spec string) ([]int, error) {

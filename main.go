@@ -8,13 +8,16 @@ import (
 )
 
 func main() {
-
-	landSpecsInput := input.GetInput(os.Stdin)
+	landSpecsInput, err := input.GetInput(os.Stdin)
+	if err != nil {
+		input.Exit()
+	}
 
 	landSpecs, err := input.GetWidthLengthCount(landSpecsInput[0])
 	if err != nil || len(landSpecs) != 3 {
 		input.Exit()
 	}
+
 	width := landSpecs[0]
 	length := landSpecs[1]
 	treesCount := landSpecs[2]
@@ -23,7 +26,6 @@ func main() {
 	specs, err := input.GetTreeSpecs(treesCount, landSpecsInput)
 	if err != nil {
 		input.Exit()
-
 	}
 
 	err = plantation.PopulateLand(specs)

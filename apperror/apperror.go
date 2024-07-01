@@ -3,5 +3,6 @@ package apperror
 import "errors"
 
 var (
-	ErrBadInput = errors.New("bad input")
+	ErrInputScan = errors.New("error during input scanning")
+	ErrBadInput  = errors.New("bad input")
 )
